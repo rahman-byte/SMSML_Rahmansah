@@ -60,7 +60,7 @@ def preprocess_data(input_path, output_path):
 
 if __name__ == "__main__":
     input_file = '../car_price_dataset.csv'
-    output_file = 'car_price_dataset_preprocessing_automated.csv'
+    output_file = 'car_price_dataset_preprocessing.csv'
     preprocess_data(input_file, output_file)
 
 # Testing workflow trigger
