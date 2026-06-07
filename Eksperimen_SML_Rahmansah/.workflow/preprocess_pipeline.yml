@@ -1,0 +1,22 @@
+name: Automated Preprocessing
+on: [push] # Trigger setiap kali ada update/push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with: {python-version: '3.12'}
+      - name: Install dependencies
+        run: pip install pandas scikit-learn
+      - name: Run Preprocessing
+        run: python preprocessing/automate_Rahmansah.py
+      - name: Commit result
+        run: |
+          git config --global user.name "Rahmansah"
+          git config --global user.email "rahmansah@gmail.com"
+          git add preprocessing/car_price_dataset_preprocessing_automated.csv
+          git commit -m "Auto-update processed dataset" || exit 0
+          git push

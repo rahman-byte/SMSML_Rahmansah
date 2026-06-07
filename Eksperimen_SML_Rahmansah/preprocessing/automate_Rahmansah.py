@@ -7,16 +7,28 @@ def preprocess_data(input_path, output_path):
     # load dataset
     df = pd.read_csv(input_path)
 
+    # Validasi Price
+    if df['Price'].isnull().any():
+        raise ValueError("Data Price mengandung nilai kosong!")
+    if (df['Price'] < 0).any():
+        raise ValueError("Data Price mengandung nilai negatif!")
+
+    # Pisahkan Fitur dan Target 
+    features = df.drop(columns=['Price'])
+    target = df['Price']
+
+    # Imputasi hanya pada fitur 
+    num_cols = features.select_dtypes(include=[np.number]).columns
+    cat_cols = features.select_dtypes(include=['object']).columns
+    
+    features[num_cols] = SimpleImputer(strategy='median').fit_transform(features[num_cols])
+    features[cat_cols] = SimpleImputer(strategy='most_frequent').fit_transform(features[cat_cols])
+
+    # Gabungkan kembali untuk proses berikutnya
+    df = pd.concat([features, target], axis=1)
+
     # hapus duplikat
     df = df.drop_duplicates()
-
-    # missing values
-    # Numerik isi median, Kategorikal isi modus
-    num_cols = df.select_dtypes(include=[np.number]).columns
-    cat_cols = df.select_dtypes(include=['object']).columns
-    
-    df[num_cols] = SimpleImputer(strategy='median').fit_transform(df[num_cols])
-    df[cat_cols] = SimpleImputer(strategy='most_frequent').fit_transform(df[cat_cols])
 
     # Outlier handling (Price)
     Q1 = df['Price'].quantile(0.25)
