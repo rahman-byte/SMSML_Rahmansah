@@ -13,11 +13,11 @@ jobs:
       - name: Install dependencies
         run: pip install pandas scikit-learn
       - name: Run Preprocessing
-        run: python preprocessing/automate_Rahmansah.py
+        run: python Eksperimen_SML_Rahmansah/preprocessing/automate_Rahmansah.py
       - name: Commit result
         run: |
           git config --global user.name "Rahmansah"
           git config --global user.email "rahmansah@gmail.com"
-          git add preprocessing/car_price_dataset_preprocessing.csv
+          git add Eksperimen_SML_Rahmansah/preprocessing/car_price_dataset_preprocessing.csv
           git commit -m "Auto-update processed dataset" || exit 0
           git push
