@@ -60,11 +60,10 @@ def preprocess_data(input_path, output_path):
     print(f"Preprocessing selesai! Data disimpan di: {output_path}")
 
 if __name__ == "__main__":
-    # get script dir loc
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    base_path = 'Eksperimen_SML_Rahmansah/preprocessing/'
     
-    input_file = os.path.join(current_dir, '../car_price_dataset.csv')
-    output_file = os.path.join(current_dir, 'car_price_dataset_preprocessing.csv')
+    input_file = 'Eksperimen_SML_Rahmansah/car_price_dataset.csv'
+    output_file = base_path + 'car_price_dataset_preprocessing.csv'
     
     preprocess_data(input_file, output_file)
 
