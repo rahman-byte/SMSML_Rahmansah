@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 
@@ -59,8 +60,12 @@ def preprocess_data(input_path, output_path):
     print(f"Preprocessing selesai! Data disimpan di: {output_path}")
 
 if __name__ == "__main__":
-    input_file = '../car_price_dataset.csv'
-    output_file = 'car_price_dataset_preprocessing.csv'
+    # get script dir loc
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    input_file = os.path.join(current_dir, '../car_price_dataset.csv')
+    output_file = os.path.join(current_dir, 'car_price_dataset_preprocessing.csv')
+    
     preprocess_data(input_file, output_file)
 
 # Testing workflow trigger.
