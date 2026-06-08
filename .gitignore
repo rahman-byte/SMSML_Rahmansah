@@ -1,6 +1,23 @@
+
+mlruns/
+mlflow.db
+mlartifacts/
+
 .venv/
-__pycache__/
-*.pkl
+venv/
+env/
 .env
+
+__pycache__/
+
+# (opsional kalo gede)
+*.csv
+
+# Artefak visualisasi
+*.png
+*.jpg
+
+
+*.pkl
 .DS_Store
 .ipynb_checkpoints/
