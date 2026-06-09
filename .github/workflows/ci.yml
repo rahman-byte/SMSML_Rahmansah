@@ -34,11 +34,14 @@ jobs:
         run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
-          MODEL_URI=$(ls -d mlruns/0/*/artifacts/model | tail -n 1)
+          # Cari model 
+          MODEL_URI=$(find mlruns -type d -name "model" | head -n 1)
+          echo "Model ditemukan di: $MODEL_URI"
           
-          mlflow models build-docker -m $MODEL_URI -n ${{ secrets.DOCKER_USERNAME }}/used-car-model
+          # Build docker
+          mlflow models build-docker -m "$MODEL_URI" --name "${{ secrets.DOCKER_USERNAME }}/used-car-model"
           
-          docker push ${{ secrets.DOCKER_USERNAME }}/used-car-model
+          docker push "${{ secrets.DOCKER_USERNAME }}/used-car-model"
 
 
         
