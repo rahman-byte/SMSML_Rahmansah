@@ -34,12 +34,25 @@ jobs:
         run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
-          MODEL_URI=$(find mlruns -type d -name "model" | head -n 1)
-          cp -r $MODEL_URI/* Workflow-CI/MLProject/
+          MODEL_PATH=$(find mlruns -maxdepth 4 -type d -name "model" | head -n 1)
           
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/used-car-model Workflow-CI/MLProject/
-          
-          docker push ${{ secrets.DOCKER_USERNAME }}/used-car-model
+          if [ -d "$MODEL_PATH" ]; then
+            echo "Model ada di: $MODEL_PATH"
+            mkdir -p docker_build
+            cp -r "$MODEL_PATH"/* docker_build/
+            cat <<EOF > docker_build/Dockerfile
+          FROM python:3.12-slim
+          RUN pip install mlflow scikit-learn pandas
+          COPY . /opt/ml/model/
+          ENTRYPOINT ["mlflow", "models", "serve", "-m", "/opt/ml/model/", "--host", "0.0.0.0", "--port", "8080"]
+          EOF
+            
+            docker build -t "${{ secrets.DOCKER_USERNAME }}/used-car-model" docker_build/
+            docker push "${{ secrets.DOCKER_USERNAME }}/used-car-model"
+          else
+            echo "Error: Folder model tidak ditemukan."
+            exit 1
+          fi
 
 
         
