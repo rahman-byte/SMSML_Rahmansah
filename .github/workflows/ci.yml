@@ -33,7 +33,11 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          mlflow models build-docker -m Workflow-CI/MLProject -n ${{ secrets.DOCKER_USERNAME }}/used-car-model
+          
+          MODEL_URI=$(ls -d mlruns/0/*/artifacts/model | tail -n 1)
+          
+          mlflow models build-docker -m $MODEL_URI -n ${{ secrets.DOCKER_USERNAME }}/used-car-model
+          
           docker push ${{ secrets.DOCKER_USERNAME }}/used-car-model
 
 
