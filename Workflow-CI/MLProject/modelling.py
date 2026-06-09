@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 
 # Load data
-df = pd.read_csv('../Eksperimen_SML_Rahmansah/preprocessing/car_price_dataset_preprocessing.csv')
+df = pd.read_csv('car_price_dataset_preprocessing.csv')
 X = df.drop('Price', axis=1)
 y = df['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
