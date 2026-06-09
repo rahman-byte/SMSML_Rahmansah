@@ -10,8 +10,6 @@ env/
 
 __pycache__/
 
-# (opsional kalo gede)
-*.csv
 
 # Artefak visualisasi
 *.png
