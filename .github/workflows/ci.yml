@@ -17,4 +17,4 @@ jobs:
       - name: Install dependencies
         run: pip install mlflow scikit-learn pandas
       - name: Run MLflow Project
-        run: mlflow run Workflow-CI/MLProject --no-conda
+        run: mlflow run Workflow-CI/MLProject --env-manager=local
