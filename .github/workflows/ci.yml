@@ -25,3 +25,16 @@ jobs:
         with:
           name: mlflow-results
           path: mlruns/  
+
+      
+      - name: Build and Push Docker Image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          mlflow models build-docker -m Workflow-CI/MLProject -n ${{ secrets.DOCKER_USERNAME }}/used-car-model
+          docker push ${{ secrets.DOCKER_USERNAME }}/used-car-model
+
+
+        
